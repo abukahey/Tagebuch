@@ -1,0 +1,373 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2821
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="de">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>Tagestracker</title>\
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">\
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>\
+    <style>\
+        body \{\
+            font-family: 'Inter', sans-serif;\
+        \}\
+        .nav-link.active \{\
+            font-weight: bold;\
+            color: #10b981; /* Beispiel: gr\'fcne Farbe f\'fcr aktive Links */\
+        \}\
+    </style>\
+</head>\
+<body class="bg-gray-100 p-4">\
+    <h1 class="text-3xl font-bold text-center text-green-600 mb-6">Mein Tagestracker</h1>\
+\
+    <div id="user-controls" class="bg-white shadow-md rounded-lg p-6 mb-6">\
+        <div id="login-section" class="mb-4">\
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Login</h2>\
+            <input type="text" id="login-username" placeholder="Benutzername" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">\
+            <input type="password" id="login-password" placeholder="Passwort" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">\
+            <button id="login-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Einloggen</button>\
+            <div id="login-error" class="text-red-500 text-xs italic mt-2" style="display: none;"></div>\
+        </div>\
+\
+        <div id="register-section">\
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Registrieren</h2>\
+            <input type="text" id="register-username" placeholder="Benutzername" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">\
+            <input type="password" id="register-password" placeholder="Passwort" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">\
+             <input type="password" id="register-password-confirm" placeholder="Passwort best\'e4tigen" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">\
+            <button id="register-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrieren</button>\
+            <div id="register-error" class="text-red-500 text-xs italic mt-2" style="display: none;"></div>\
+        </div>\
+        <div id="logout-section" style="display: none;">\
+             <button id="logout-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ausloggen</button>\
+             <div id="profile-info" class="mt-4 text-gray-700">Eingeloggt als: <span id="profile-username"></span></div>\
+        </div>\
+    </div>\
+\
+    <nav class="mb-6">\
+        <ul class="flex justify-center space-x-4">\
+            <li class="nav-item">\
+                <a class="nav-link active cursor-pointer" data-section="tracker">Tracker</a>\
+            </li>\
+            <li class="nav-item">\
+                <a class="nav-link cursor-pointer" data-section="history">Verlauf</a>\
+            </li>\
+            <li class="nav-item">\
+                <a class="nav-link cursor-pointer" data-section="badges">Abzeichen</a>\
+            </li>\
+        </ul>\
+    </nav>\
+\
+    <form id="daily-tracker" class="bg-white shadow-md rounded-lg p-6 mb-6" style="display: none;">\
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">T\'e4gliche Checkliste</h2>\
+\
+        <div class="mb-4">\
+            <label for="bewegung60" class="block text-gray-700 text-sm font-bold mb-2">Habe ich mich heute 60 Minuten bewegt?</label>\
+            <input type="checkbox" id="bewegung60" name="bewegung60" class="mr-2">\
+        </div>\
+\
+        <div class="mb-4">\
+            <label for="bewegung10" class="block text-gray-700 text-sm font-bold mb-2">Habe ich heute eine Bewegungsroutine von 10 Minuten gemacht?</label>\
+            <input type="checkbox" id="bewegung10" name="bewegung10" class="mr-2">\
+        </div>\
+\
+        <div class="mb-4">\
+            <label for="sport" class="block text-gray-700 text-sm font-bold mb-2">Habe ich heute Sport gemacht?</label>\
+            <input type="checkbox" id="sport" name="sport" class="mr-2">\
+        </div>\
+\
+        <div class="mb-4">\
+            <label for="proteine_faserstoffe" class="block text-gray-700 text-sm font-bold mb-2">Habe ich heute zu jeder Hauptmahlzeit Proteine und Faserstoffe zu mir genommen?</label>\
+            <input type="checkbox" id="proteine_faserstoffe" name="proteine_faserstoffe" class="mr-2">\
+        </div>\
+\
+        <div class="mb-4">\
+            <label for="zucker_fertigprodukte" class="block text-gray-700 text-sm font-bold mb-2">Habe ich heute auf Zucker und Fertigprodukte verzichtet?</label>\
+            <input type="checkbox" id="zucker_fertigprodukte" name="zucker_fertigprodukte" class="mr-2">\
+        </div>\
+\
+        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Speichern</button>\
+    </form>\
+\
+    <div id="history-section" class="bg-white shadow-md rounded-lg p-6 mb-6" style="display: none;">\
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Verlauf</h2>\
+        <div id="history-entries" class="mt-4">\
+            </div>\
+    </div>\
+\
+    <div id="badges-section" class="bg-white shadow-md rounded-lg p-6" style="display: none;">\
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Meine Abzeichen</h2>\
+        <div id="badges-container" class="flex flex-wrap gap-4">\
+            </div>\
+    </div>\
+\
+    <script>\
+        const dailyTrackerForm = document.getElementById('daily-tracker');\
+        const badgesContainer = document.getElementById('badges-container');\
+        const loginSection = document.getElementById('login-section');\
+        const registerSection = document.getElementById('register-section');\
+        const loginButton = document.getElementById('login-button');\
+        const registerButton = document.getElementById('register-button');\
+        const loginError = document.getElementById('login-error');\
+        const registerError = document.getElementById('register-error');\
+        const logoutButton = document.getElementById('logout-button');\
+        const logoutSection = document.getElementById('logout-section');\
+        const profileInfo = document.getElementById('profile-info');\
+        const profileUsernameSpan = document.getElementById('profile-username');\
+        const navLinks = document.querySelectorAll('.nav-link');\
+        const trackerSection = document.getElementById('daily-tracker');\
+        const historySection = document.getElementById('history-section');\
+        const badgesSection = document.getElementById('badges-section');\
+        const historyEntriesContainer = document.getElementById('history-entries');\
+\
+\
+        const HABIT_BADGE = 'Gewohnheitstier';\
+        const HEALTH_MASTER_BADGE = 'Gesundheitsmeister';\
+\
+        let dailyEntries = JSON.parse(localStorage.getItem('dailyEntries')) || [];\
+        let badges = JSON.parse(localStorage.getItem('badges')) || [];\
+        let users = JSON.parse(localStorage.getItem('users')) || [];\
+        let currentUser = localStorage.getItem('currentUser');\
+\
+        if (currentUser) \{\
+            showLoggedInUI();\
+            showSection('tracker'); // Standardm\'e4\'dfig den Tracker anzeigen\
+        \} else \{\
+            showLoggedOutUI();\
+            showSection('login');\
+        \}\
+\
+        function showLoggedInUI() \{\
+            loginSection.style.display = 'none';\
+            registerSection.style.display = 'none';\
+            dailyTrackerForm.style.display = 'block';\
+            badgesContainer.style.display = 'block';\
+            logoutSection.style.display = 'block';\
+            profileUsernameSpan.textContent = currentUser;\
+            navLinks.forEach(link => link.classList.remove('disabled'));\
+            let user = users.find(u => u.username === currentUser);\
+             if(user)\{\
+                 profileUsernameSpan.textContent = user.username;\
+             \}\
+        \}\
+\
+        function showLoggedOutUI() \{\
+            loginSection.style.display = 'block';\
+            registerSection.style.display = 'block';\
+            dailyTrackerForm.style.display = 'none';\
+            badgesContainer.style.display = 'none';\
+            logoutSection.style.display = 'none';\
+            profileUsernameSpan.textContent = '';\
+            navLinks.forEach(link => link.classList.add('disabled'));\
+        \}\
+\
+        loginButton.addEventListener('click', (event) => \{\
+            event.preventDefault();\
+            const username = document.getElementById('login-username').value.trim();\
+            const password = document.getElementById('login-password').value.trim();\
+            loginError.style.display = 'none';\
+\
+            const user = users.find(u => u.username === username && u.password === password);\
+            if (user) \{\
+                currentUser = username;\
+                localStorage.setItem('currentUser', currentUser);\
+                showLoggedInUI();\
+                showSection('tracker'); // Nach dem Login zum Tracker wechseln\
+            \} else \{\
+                loginError.textContent = 'Ung\'fcltige Anmeldedaten.';\
+                loginError.style.display = 'block';\
+            \}\
+        \});\
+\
+        registerButton.addEventListener('click', (event) => \{\
+            event.preventDefault();\
+            const username = document.getElementById('register-username').value.trim();\
+            const password = document.getElementById('register-password').value.trim();\
+             const passwordConfirm = document.getElementById('register-password-confirm').value.trim();\
+            registerError.style.display = 'none';\
+\
+            if (password !== passwordConfirm) \{\
+                registerError.textContent = 'Passw\'f6rter stimmen nicht \'fcberein.';\
+                registerError.style.display = 'block';\
+                return;\
+            \}\
+\
+            if (users.some(u => u.username === username)) \{\
+                registerError.textContent = 'Benutzername bereits vergeben.';\
+                registerError.style.display = 'block';\
+                return;\
+            \}\
+\
+            if (username && password) \{\
+                const newUser = \{ username, password \};\
+                users.push(newUser);\
+                localStorage.setItem('users', JSON.stringify(users));\
+                currentUser = username;\
+                localStorage.setItem('currentUser', currentUser);\
+                showLoggedInUI();\
+                showSection('tracker'); // Nach der Registrierung zum Tracker wechseln\
+                alert('Registrierung erfolgreich! Du bist nun eingeloggt.');\
+            \} else \{\
+                registerError.textContent = 'Bitte f\'fcllen Sie alle Felder aus.';\
+                registerError.style.display = 'block';\
+            \}\
+        \});\
+\
+        logoutButton.addEventListener('click', (event) => \{\
+            event.preventDefault();\
+            currentUser = null;\
+            localStorage.removeItem('currentUser');\
+            showLoggedOutUI();\
+            showSection('login'); // Nach dem Logout zur Login-Seite wechseln\
+            dailyEntries = [];\
+            badges = [];\
+            localStorage.setItem('dailyEntries', JSON.stringify(dailyEntries));\
+            localStorage.setItem('badges', JSON.stringify(badges));\
+        \});\
+\
+        dailyTrackerForm.addEventListener('submit', (event) => \{\
+            event.preventDefault();\
+\
+            const bewegung60 = document.getElementById('bewegung60').checked;\
+            const bewegung10 = document.getElementById('bewegung10').checked;\
+            const sport = document.getElementById('sport').checked;\
+            const proteineFaserstoffe = document.getElementById('proteine_faserstoffe').checked;\
+            const zuckerFertigprodukte = document.getElementById('zucker_fertigprodukte').checked;\
+\
+            const dailyEntry = \{\
+                date: new Date().toISOString().split('T')[0],\
+                bewegung60,\
+                bewegung10,\
+                sport,\
+                proteineFaserstoffe,\
+                zuckerFertigprodukte,\
+                username: currentUser\
+            \};\
+\
+            dailyEntries.push(dailyEntry);\
+            localStorage.setItem('dailyEntries', JSON.stringify(dailyEntries));\
+\
+            updateBadges();\
+            displayBadges();\
+            displayHistory(); // Update History on submit\
+            dailyTrackerForm.reset();\
+            alert('Deine Eingaben wurden gespeichert!');\
+        \});\
+\
+        function updateBadges() \{\
+            const today = new Date().toISOString().split('T')[0];\
+            if (dailyEntries.some(entry => entry.date === today && entry.username === currentUser)) \{\
+                return;\
+            \}\
+\
+           const last7DaysEntries = dailyEntries.filter(entry => \{\
+                const entryDate = new Date(entry.date);\
+                const todayDate = new Date();\
+                const diffInDays = Math.abs(todayDate - entryDate) / (1000 * 60 * 60 * 24);\
+                return diffInDays < 7 && entry.username === currentUser;\
+            \}).slice(-7);\
+\
+            if (last7DaysEntries.length === 7) \{\
+                let count2PerDay = 0;\
+                for (const entry of last7DaysEntries) \{\
+                    let count = 0;\
+                    if (entry.bewegung60) count++;\
+                    if (entry.bewegung10) count++;\
+                    if (entry.sport) count++;\
+                    if (entry.proteineFaserstoffe) count++;\
+                    if (entry.zuckerFertigprodukte) count++;\
+                    if (count >= 2) \{\
+                        count2PerDay++;\
+                    \}\
+                \}\
+                if (count2PerDay === 7 && !badges.includes(HABIT_BADGE)) \{\
+                    badges.push(HABIT_BADGE);\
+                    localStorage.setItem('badges', JSON.stringify(badges));\
+                \}\
+            \}\
+\
+            let successCount = 0;\
+            const userEntries = dailyEntries.filter(entry => entry.username === currentUser);\
+            for (const entry of userEntries) \{\
+                let count = 0;\
+                if (entry.bewegung60) count++;\
+                if (entry.bewegung10) count++;\
+                if (entry.sport) count++;\
+                if (entry.proteineFaserstoffe) count++;\
+                if (entry.zuckerFertigprodukte) count++;\
+                if (count >= 3) \{\
+                    successCount++;\
+                \}\
+            \}\
+            const successRate = userEntries.length > 0 ? (successCount / userEntries.length) * 100 : 0;\
+            if (successRate >= 80 && !badges.includes(HEALTH_MASTER_BADGE)) \{\
+                badges.push(HEALTH_MASTER_BADGE);\
+                localStorage.setItem('badges', JSON.stringify(badges));\
+            \}\
+        \}\
+\
+        function displayBadges() \{\
+            badgesContainer.innerHTML = '';\
+            badges.forEach(badge => \{\
+                const badgeDiv = document.createElement('div');\
+                badgeDiv.classList.add('bg-yellow-400', 'border-2', 'border-yellow-500', 'text-yellow-800', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'font-semibold');\
+                badgeDiv.textContent = badge;\
+                badgesContainer.appendChild(badgeDiv);\
+            \});\
+        \}\
+\
+        function displayHistory() \{\
+            historyEntriesContainer.innerHTML = '';\
+            const userEntries = dailyEntries.filter(entry => entry.username === currentUser);\
+\
+            userEntries.forEach(entry => \{\
+                const entryDiv = document.createElement('div');\
+                entryDiv.classList.add('bg-white', 'border', 'border-gray-200', 'rounded-md', 'p-4', 'mb-2');\
+                entryDiv.innerHTML = `\
+                    <p class="text-gray-700">Datum: $\{entry.date\}</p>\
+                    <p class="text-gray-700">60 Min Bewegung: $\{entry.bewegung60 ? 'Ja' : 'Nein'\}</p>\
+                    <p class="text-gray-700">10 Min Routine: $\{entry.bewegung10 ? 'Ja' : 'Nein'\}</p>\
+                    <p class="text-gray-700">Sport: $\{entry.sport ? 'Ja' : 'Nein'\}</p>\
+                    <p class="text-gray-700">Proteine/Faserstoffe: $\{entry.proteineFaserstoffe ? 'Ja' : 'Nein'\}</p>\
+                    <p class="text-gray-700">Zucker/Fertigprodukte: $\{entry.zuckerFertigprodukte ? 'Ja' : 'Nein'\}</p>\
+                `;\
+                historyEntriesContainer.appendChild(entryDiv);\
+            \});\
+        \}\
+\
+        function showSection(sectionId) \{\
+            trackerSection.style.display = 'none';\
+            historySection.style.display = 'none';\
+            badgesSection.style.display = 'none';\
+\
+            navLinks.forEach(link => link.classList.remove('active'));\
+\
+            const selectedSection = document.getElementById(sectionId + '-section');\
+            selectedSection.style.display = 'block';\
+\
+            const selectedNavLink = document.querySelector(`[data-section="$\{sectionId\}"]`);\
+            selectedNavLink.classList.add('active');\
+            if (sectionId === 'history') \{\
+                displayHistory();\
+            \} else if (sectionId === 'badges') \{\
+                displayBadges();\
+            \}\
+        \}\
+\
+        navLinks.forEach(link => \{\
+            link.addEventListener('click', (event) => \{\
+                const section = event.target.dataset.section;\
+                if (!event.target.classList.contains('disabled')) \{\
+                    showSection(section);\
+                \}\
+            \});\
+        \});\
+    </script>\
+</body>\
+</html>\
+}
